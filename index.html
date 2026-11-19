@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SpurAudio: A Benchmark for Studying Shortcut Learning in Few-Shot Audio Classification</title>
+<meta name="description" content="SpurAudio is a controlled benchmark for spurious foreground-background correlations in few-shot audio classification. Swap the background between support and query, and state-of-the-art methods, including large pretrained audio encoders, lose accuracy.">
+<meta property="og:title" content="SpurAudio: A Benchmark for Studying Shortcut Learning in Few-Shot Audio Classification">
+<meta property="og:description" content="Few-shot audio classifiers can be right for the wrong reason. SpurAudio measures how much of their accuracy is a background shortcut.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jerryaa98.github.io/SpurAudio_website/">
+<meta property="og:image" content="https://jerryaa98.github.io/SpurAudio_website/assets/img/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#08080d">
+<meta name="citation_title" content="SpurAudio: A Benchmark for Studying Shortcut Learning in Few-Shot Audio Classification">
+<meta name="citation_author" content="Abu Ayoub, Giries">
+<meta name="citation_author" content="Tukan, Morad">
+<meta name="citation_author" content="Mualem, Loay">
+<meta name="citation_publication_date" content="2026/05/13">
+<meta name="citation_arxiv_id" content="2605.13672">
+<meta name="citation_pdf_url" content="https://arxiv.org/pdf/2605.13672">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Sans:ital,wght@0,400..600;1,400&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+<a class="skip" href="#problem">Skip to content</a>
+<div class="progress" aria-hidden="true"><i id="progress"></i></div>
+
+<nav aria-label="Primary">
+  <a class="brand" href="#top" aria-label="SpurAudio, back to top">
+    <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span class="bn"><em>Spur</em>Audio</span>
+  </a>
+  <ul id="nav-links">
+    <li><a href="#problem">Shortcut</a></li>
+    <li><a href="#benchmark">Benchmark</a></li>
+    <li><a href="#protocol">Protocol</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#cite">Cite</a></li>
+  </ul>
+  <div class="ext">
+    <a href="https://arxiv.org/abs/2605.13672" target="_blank" rel="noopener">Paper</a>
+    <a href="https://github.com/Jerryaa98/SpurAudio" target="_blank" rel="noopener">Code</a>
+    <a href="https://huggingface.co/datasets/spuraudioNips/SpurAudio-neurips-anonym" target="_blank" rel="noopener">Data</a>
+  </div>
+</nav>
+
+<!-- ================================================================== HERO -->
+<header class="hero" id="top">
+  <canvas id="spec" aria-hidden="true"></canvas>
+  <div class="hud" id="hud" data-state="support" aria-hidden="true">
+    <span class="k">episode</span><b id="hud-ep">01</b><span class="chip" id="hud-chip">support · coughing + thunderstorm</span>
+  </div>
+  <div class="hero-inner">
+    <p class="venue">
+      <a class="tag" href="https://arxiv.org/abs/2605.13672" target="_blank" rel="noopener">arXiv 2605.13672</a>
+      <span>Preprint · 2026</span>
+      <span class="dot" aria-hidden="true"></span>
+      <span>Benchmark · Dataset · Library</span>
+    </p>
+    <h1>
+      <span class="wm"><em>Spur</em>Audio</span>
+      <span class="ttl">A Benchmark for Studying <em>Shortcut Learning</em> in Few-Shot Audio Classification</span>
+    </h1>
+    <p class="lead">Few-shot audio classifiers can be right for the wrong reason. SpurAudio mixes <b class="c-fg">foreground</b> events with controlled <b class="c-bg">backgrounds</b>, then breaks that pairing at test time to measure how much of the accuracy was a shortcut.</p>
+    <div class="au-cards" role="list" aria-label="Authors">
+      <div class="au-card" role="listitem" style="--pc:#ff8a5c; --i:0">
+        <div class="au-ph" aria-hidden="true"><img src="assets/img/team/giries.webp" alt="" width="240" height="240" decoding="async"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46"/></svg></div>
+        <div class="au-tx">
+          <p class="au-nm"><a href="https://jerryaa98.github.io/" target="_blank" rel="noopener">Giries Abu Ayoub</a><sup>*</sup></p>
+          <p class="au-af">University of Haifa</p>
+          <p class="au-ln"><a class="au-site" href="https://jerryaa98.github.io/" target="_blank" rel="noopener">jerryaa98.github.io<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a><a href="https://scholar.google.com/citations?user=oH0Z6nMAAAAJ&amp;hl=en" target="_blank" rel="noopener">Scholar</a><a href="https://github.com/Jerryaa98" target="_blank" rel="noopener">GitHub</a></p>
+        </div>
+      </div>
+      <div class="au-card" role="listitem" style="--pc:#4fd1c5; --i:1">
+        <div class="au-ph" aria-hidden="true"><img src="assets/img/team/morad.webp" alt="" width="240" height="240" decoding="async"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46"/></svg></div>
+        <div class="au-tx">
+          <p class="au-nm"><a href="https://muradtuk.github.io/" target="_blank" rel="noopener">Morad Tukan</a><sup>*</sup></p>
+          <p class="au-af">Independent Researcher</p>
+          <p class="au-ln"><a class="au-site" href="https://muradtuk.github.io/" target="_blank" rel="noopener">muradtuk.github.io<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a><a href="https://scholar.google.com/citations?user=721xaz0AAAAJ&amp;hl=en" target="_blank" rel="noopener">Scholar</a><a href="https://github.com/muradtuk" target="_blank" rel="noopener">GitHub</a></p>
+        </div>
+      </div>
+      <div class="au-card" role="listitem" style="--pc:#7c94ff; --i:2">
+        <div class="au-ph" aria-hidden="true"><img src="assets/img/team/loay.webp" alt="" width="240" height="240" decoding="async"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46"/></svg></div>
+        <div class="au-tx">
+          <p class="au-nm"><a href="https://loaym.github.io/" target="_blank" rel="noopener">Loay Mualem</a><sup>†</sup></p>
+          <p class="au-af">University of Stuttgart · IMPRS-IS</p>
+          <p class="au-ln"><a class="au-site" href="https://loaym.github.io/" target="_blank" rel="noopener">loaym.github.io<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a><a href="https://scholar.google.com/citations?user=kMWFvg4AAAAJ" target="_blank" rel="noopener">Scholar</a></p>
+        </div>
+      </div>
+    </div>
+    <p class="au-note"><sup>*</sup>Equal contribution &nbsp;·&nbsp; <sup>†</sup>Corresponding author</p>
+    <div class="actions">
+      <a class="btn primary" href="https://arxiv.org/abs/2605.13672" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>Paper</a>
+      <a class="btn" href="https://github.com/Jerryaa98/SpurAudio" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>Code</a>
+      <a class="btn" href="https://huggingface.co/datasets/spuraudioNips/SpurAudio-neurips-anonym" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>Dataset</a>
+      <a class="btn" href="#listen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg>Listen</a>
+      <a class="btn" href="#cite"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h4v4c0 3-1.5 5-4 6M14 7h4v4c0 3-1.5 5-4 6"/></svg>Cite</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ================================================================== IN ONE MINUTE -->
+<section class="block tldr" id="tldr" aria-label="Key findings">
+  <div class="inner">
+    <p class="kicker reveal">In one minute</p>
+    <div class="tl">
+      <a class="tl-i reveal" href="#results">
+        <span class="tl-n">Finding 1</span>
+        <span class="tl-v"><span id="t-drop-n" data-count="60">60</span><em>/</em><span id="t-drop-d">60</span></span>
+        <span class="tl-h">Every method drops.</span>
+        <span class="tl-p">Break the foreground-background pairing and every CNN method × backbone setting in the paper loses accuracy at 5-shot, by up to <b id="t-max">13.4</b> points.</span>
+        <span class="tl-go">See the results <i aria-hidden="true">→</i></span>
+      </a>
+      <a class="tl-i reveal" href="#explorer" data-ex-bb="clap">
+        <span class="tl-n">Finding 2</span>
+        <span class="tl-v"><span id="t-big-lo" data-count="8.3" data-dec="1">8.3</span><em>–</em><span id="t-big-hi" data-count="13.0" data-dec="1">13.0</span><small>pts</small></span>
+        <span class="tl-h">Bigger encoders are not robust.</span>
+        <span class="tl-p">With an ordinary ProtoNet head, frozen CLAP, AST, AudioMAE and Qwen2-Audio-7B reach about 96% IID accuracy and still lose this much at 5-shot.</span>
+        <span class="tl-go">Explore the large encoders <i aria-hidden="true">→</i></span>
+      </a>
+      <a class="tl-i reveal" href="#explorer" data-ex-bb="clap" data-ex-sort="gap">
+        <span class="tl-n">Finding 3</span>
+        <span class="tl-v"><span id="t-h-lo" data-count="2.1" data-dec="1">2.1</span><em>vs</em><span id="t-h-hi" data-count="16.0" data-dec="1">16.0</span><small>pts</small></span>
+        <span class="tl-h">The head matters more than the encoder.</span>
+        <span class="tl-p">Mean gap of the most and the least robust head on those same four encoders. Backgrounds change a feature's length rather than its direction, and heads differ sharply in how much they read into length.</span>
+        <span class="tl-go">Compare the heads <i aria-hidden="true">→</i></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================== 1. THE SHORTCUT -->
+<section class="block" id="problem">
+  <div class="inner">
+    <p class="kicker reveal">The shortcut</p>
+    <h2 class="title reveal">Right answer, <em>wrong</em> reason.</h2>
+    <div class="cols reveal">
+      <p class="sub">Audio is additive. A cough is never recorded alone: it is summed, in time and frequency, with the vacuum cleaner or the storm around it. When a class keeps arriving with the same background, a few-shot model can tell classes apart by their <b>context</b> and still look accurate.</p>
+      <p class="sub">Standard benchmarks cannot see this, because support and query share the same conditions. Move the same sound to a different room and the shortcut stops working, even though nothing about the sound itself has changed.</p>
+    </div>
+
+    <figure class="mixer reveal" aria-label="Diagram: a foreground lane and a background lane are summed into the mixture the model hears. The background switches while the foreground and its label stay the same.">
+      <div class="mixer-head">
+        <span class="lab">What the model hears</span>
+        <span class="mixer-now" id="mixer-now"><i class="sw fg"></i>coughing <b>+</b> <i class="sw bg"></i><span id="mixer-bg">thunderstorm</span></span>
+      </div>
+      <canvas id="mixer" height="260"></canvas>
+      <figcaption>The <b>foreground</b> decides the label. The <b>background</b> is unrelated context, 8&nbsp;dB quieter. The model only ever receives their <b>sum</b>, and nothing in it says which part is the label.</figcaption>
+    </figure>
+
+    <h3 class="sub-title reveal" id="listen">Listen: one sound, four rooms</h3>
+    <p class="sub reveal">These are real clips from the SpurAudio test split, drawn as the log-mel spectrograms a model receives. Keep the foreground fixed and change the background: the label never moves.</p>
+
+    <div class="panel listen reveal" id="listen-panel">
+      <div class="controls">
+        <div class="field"><span class="lab" id="ls-fg-lab"><i class="sw fg"></i>Foreground · the label</span><div class="seg" id="ls-fg" role="group" aria-labelledby="ls-fg-lab"></div></div>
+        <div class="field"><span class="lab" id="ls-bg-lab"><i class="sw bg"></i>Background · the context</span><div class="seg" id="ls-bg" role="group" aria-labelledby="ls-bg-lab"></div></div>
+      </div>
+      <div class="stage">
+        <button type="button" class="playbtn" id="ls-play" aria-label="Play clip" aria-pressed="false">
+          <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+        </button>
+        <div class="specwrap" id="ls-wrap">
+          <img id="ls-img-a" class="on" alt="" width="1002" height="384" decoding="async">
+          <img id="ls-img-b" alt="" width="1002" height="384" decoding="async">
+          <div class="dim" id="ls-dim"></div>
+          <div class="ph" id="ls-ph"></div>
+          <span class="ax ax-top">8 kHz · 128 mel bands</span>
+          <div class="ticks" aria-hidden="true"><span>0 s</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5 s</span></div>
+        </div>
+      </div>
+      <p class="readout" id="ls-read" aria-live="polite"></p>
+      <audio id="ls-audio" preload="none"></audio>
+      <noscript><p class="note">Enable JavaScript to switch clips, or browse the <a href="https://huggingface.co/datasets/spuraudioNips/SpurAudio-neurips-anonym">dataset on Hugging Face</a>.</p></noscript>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================== 2. THE BENCHMARK -->
+<section class="block alt" id="benchmark">
+  <div class="inner">
+    <p class="kicker reveal">The benchmark</p>
+    <h2 class="title reveal">Built to pull signal and context <em>apart</em>.</h2>
+    <p class="sub reveal">SpurAudio draws clips from five public datasets, pairs every foreground class with four unrelated backgrounds, mixes them at a realistic level, and keeps only the mixtures that human annotators judged clean.</p>
+
+    <div class="tiles">
+      <div class="tile reveal"><div class="v"><span data-count="38">38</span></div><div class="l">foreground classes</div><div class="s">25 train · 5 validation · 8 test<br>no class shared between splits</div></div>
+      <div class="tile reveal"><div class="v"><span data-count="29">29</span></div><div class="l">background contexts</div><div class="s">four per foreground<br>shared across all splits</div></div>
+      <div class="tile reveal"><div class="v"><span data-count="16378" data-sep="1">16,378</span></div><div class="l">curated sound events</div><div class="s">kept from <b>50,116</b> generated mixtures after manual review</div></div>
+      <div class="tile reveal"><div class="v"><span data-count="5">5</span></div><div class="l">source datasets</div><div class="s">ESC-50 · UrbanSound8K · VocalSound · WILD DESED · USM</div></div>
+    </div>
+
+    <h3 class="sub-title reveal">Foreground &amp; Background Pairing</h3>
+
+    <div class="panel patch reveal" id="patch">
+      <div class="controls">
+        <div class="field"><span class="lab" id="pb-mode-lab">Wiring</span>
+          <div class="seg" id="pb-mode" role="group" aria-labelledby="pb-mode-lab">
+            <button type="button" data-v="std" aria-pressed="true">Standard</button>
+            <button type="button" data-v="hard" aria-pressed="false">Hard OOD</button>
+          </div>
+        </div>
+        <ul class="legend" aria-label="Legend">
+          <li><i class="k test"></i>test class</li><li><i class="k val"></i>validation</li><li><i class="k train"></i>train</li>
+        </ul>
+      </div>
+      <div class="pb-grid">
+        <div class="pb-bay" id="pb-bay">
+          <div class="pb-col fg"><span class="pb-h">Foreground · label</span><ul id="pb-fg"></ul></div>
+          <svg class="pb-wires" id="pb-wires" aria-hidden="true"></svg>
+          <div class="pb-col bg"><span class="pb-h">Background · context</span><ul id="pb-bg"></ul></div>
+        </div>
+        <aside class="pb-info" id="pb-info" aria-live="polite"></aside>
+      </div>
+      <noscript><p class="note">The full foreground-to-background table is in Appendix B of the paper.</p></noscript>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================== 3. THE PROTOCOL -->
+<section class="block" id="protocol">
+  <div class="inner">
+    <p class="kicker reveal">The protocol</p>
+    <h2 class="title reveal">Same episode. <em>Swap</em> the background.</h2>
+    <p class="sub reveal">Evaluation uses the standard N-way K-shot episode: a few labelled support clips per class, then unlabelled queries to classify. SpurAudio samples every test episode two ways and reports the difference.</p>
+
+    <div class="defs">
+      <div class="def iid reveal"><span class="pill"><i></i>IID</span><p>Queries share the background pairings of their class's support clips. This is what a standard benchmark measures.</p></div>
+      <div class="def ood reveal"><span class="pill"><i></i>OOD</span><p>Queries arrive with backgrounds that also appear next to other classes. N, K and the number of queries stay the same.</p></div>
+      <div class="def gap reveal"><span class="pill">Δ</span><p><span class="m">Δ = Acc<sub>IID</sub> − Acc<sub>OOD</sub></span><br>The share of accuracy that depended on the background.</p></div>
+    </div>
+
+    <div class="panel episode reveal" id="episode">
+      <div class="controls">
+        <div class="field"><span class="lab" id="ep-mode-lab">Episode sampling</span>
+          <div class="seg" id="ep-mode" role="group" aria-labelledby="ep-mode-lab">
+            <button type="button" data-v="iid" aria-pressed="true"><i class="sw iid"></i>IID · backgrounds match</button>
+            <button type="button" data-v="ood" aria-pressed="false"><i class="sw ood"></i>OOD · backgrounds swapped</button>
+          </div>
+        </div>
+      </div>
+      <div class="ep-grid">
+        <div class="ep-cards" id="ep-cards">
+          <div class="ep-hd"><span>Support set · labelled</span><span>Query · to classify</span></div>
+          <div class="ep-row" data-cls="cough">
+            <span class="ep-cls"><b>coughing</b></span>
+            <div class="ep-sup" id="ep-sup-cough"></div>
+            <div class="ep-q" id="ep-q-cough"></div>
+          </div>
+          <div class="ep-row" data-cls="pig">
+            <span class="ep-cls"><b>pig</b></span>
+            <div class="ep-sup" id="ep-sup-pig"></div>
+            <div class="ep-q" id="ep-q-pig"></div>
+          </div>
+          <p class="ep-read" id="ep-read" aria-live="polite"></p>
+          <p class="note">A 2-way 2-shot episode built from real test clips. Click any clip to hear it.</p>
+        </div>
+        <div class="ep-space">
+          <div class="ep-space-hd"><span class="lab">Feature space · schematic</span><span class="acc" id="ep-acc"></span></div>
+          <svg id="ep-svg" viewBox="0 0 460 372" role="img" aria-labelledby="ep-svg-t"><title id="ep-svg-t">Schematic feature space with support prototypes and queries for two classes</title></svg>
+          <ul class="legend ep-leg" aria-label="Legend"><li><i class="g sup"></i>support clip</li><li><i class="g pro"></i>class prototype</li><li><i class="g qry"></i>query</li><li><i class="g bnd"></i>decision boundary</li></ul>
+        </div>
+      </div>
+      <audio id="ep-audio" preload="none"></audio>
+    </div>
+    <p class="note reveal">The feature-space diagram is a two-dimensional sketch of the effect reported in Appendix H of the paper, not a plot of real embeddings. Reported numbers use 5-way episodes with 1 or 5 shots, 10 queries per class, 1,000 test episodes and three seeds.</p>
+  </div>
+</section>
+
+<!-- ================================================================== 4. RESULTS -->
+<section class="block alt" id="results">
+  <div class="inner">
+    <p class="kicker reveal">Results</p>
+    <h2 class="title reveal">Break the pairing and <em>every</em> method drops.</h2>
+    <p class="sub reveal">The gap shows up in every family, at every backbone size and at every shot count.</p>
+
+    <h3 class="sub-title first reveal">Explore every table in the paper</h3>
+    <div class="reveal" id="explorer">
+      <div class="filters">
+        <div class="field"><span class="lab" id="ex-bb-lab">Backbone</span><div class="tabs" id="ex-bb" role="tablist" aria-labelledby="ex-bb-lab"></div></div>
+        <div class="field"><span class="lab" id="ex-shot-lab">Shots</span>
+          <div class="seg" id="ex-shot" role="group" aria-labelledby="ex-shot-lab">
+            <button type="button" data-v="s1" aria-pressed="false">1-shot</button>
+            <button type="button" data-v="s5" aria-pressed="true">5-shot</button>
+          </div>
+        </div>
+        <div class="field"><span class="lab" id="ex-sort-lab">Order</span>
+          <div class="seg" id="ex-sort" role="group" aria-labelledby="ex-sort-lab">
+            <button type="button" data-v="family" aria-pressed="true">By family</button>
+            <button type="button" data-v="gap" aria-pressed="false">By gap</button>
+          </div>
+        </div>
+        <div class="field"><span class="lab" id="ex-view-lab">View</span>
+          <div class="seg" id="ex-view" role="group" aria-labelledby="ex-view-lab">
+            <button type="button" data-v="chart" aria-pressed="true">Chart</button>
+            <button type="button" data-v="table" aria-pressed="false">Table</button>
+          </div>
+        </div>
+      </div>
+      <div class="panel chartpanel">
+        <div class="chart-top">
+          <p class="summary" id="ex-sum" aria-live="polite"></p>
+          <ul class="legend"><li><i class="mk iid"></i>IID accuracy</li><li><i class="mk ood"></i>OOD accuracy</li><li><i class="mk bar"></i>gap Δ</li></ul>
+        </div>
+        <div class="db" id="ex-chart"></div>
+        <div class="tablewrap" id="ex-table" hidden></div>
+      </div>
+      <p class="note">Accuracy in %, 5-way episodes; hover or focus a row for the spread reported in the paper. Δ is printed exactly as in the paper. CNN backbones are trained on SpurAudio's base classes and averaged over three seeds; large encoders are frozen and paired with heads that need no backbone training. * marks a variant with an extra attention module.</p>
+      <noscript><p class="note">The interactive chart needs JavaScript. All numbers are in Tables 1 to 3 and the appendix of the <a href="https://arxiv.org/abs/2605.13672">paper</a>.</p></noscript>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================== 5. CITATION -->
+<section class="block short" id="cite">
+  <div class="inner">
+    <p class="kicker reveal">Citation</p>
+    <div class="cite reveal">
+      <div class="cc-hd"><span>BibTeX</span><button type="button" class="copy" data-copy="bib">Copy</button></div>
+      <pre id="bib"><code>@article{ayoub2026spuraudio,
+  title={SpurAudio: A Benchmark for Studying Shortcut Learning in Few-Shot Audio Classification},
+  author={Ayoub, Giries Abu and Tukan, Morad and Mualem, Loay},
+  journal={arXiv preprint arXiv:2605.13672},
+  year={2026}
+}</code></pre>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="inner">
+    <div>
+      <p class="f-brand"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span class="bn"><em>Spur</em>Audio</span></p>
+      <h2>A Benchmark for Studying Shortcut Learning in Few-Shot Audio Classification</h2>
+      <p>Giries Abu Ayoub, Morad Tukan, Loay Mualem · arXiv 2026 · Questions? <a href="https://github.com/Jerryaa98/SpurAudio/issues" target="_blank" rel="noopener">Open an issue</a>.</p>
+      <p class="fine">Audio clips on this page come from the SpurAudio test split, which is built from ESC-50, UrbanSound8K, VocalSound, WILD DESED and USM. Hero and mixer animations are illustrations, not data.</p>
+    </div>
+    <div class="actions">
+      <a class="btn primary" href="https://arxiv.org/abs/2605.13672" target="_blank" rel="noopener">Paper</a>
+      <a class="btn" href="https://github.com/Jerryaa98/SpurAudio" target="_blank" rel="noopener">Code</a>
+      <a class="btn" href="https://huggingface.co/datasets/spuraudioNips/SpurAudio-neurips-anonym" target="_blank" rel="noopener">Dataset</a>
+    </div>
+  </div>
+</footer>
+
+<div class="tip" id="tip" role="tooltip" hidden></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/clips.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
